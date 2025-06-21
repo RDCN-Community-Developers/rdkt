@@ -57,7 +57,11 @@ kotlin {
 
     // js
     js {
-        browser { }
+        browser {
+            testTask {
+                enabled = false
+            }
+        }
         nodejs { }
         binaries.executable()
     }
