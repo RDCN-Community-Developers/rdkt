@@ -1,4 +1,4 @@
-package cn.rdlevel.rdkt.core.serializers
+package cn.rdlevel.rdkt.core.serialization
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import kotlinx.serialization.KSerializer
@@ -32,10 +32,16 @@ public abstract class PolymorphicDelegatedSerializer<Sub : Base, Base>(
 
     override fun deserialize(decoder: Decoder): Sub {
         val result = decoder.decodeSerializableValue(baseSerializer)
-        runCatching {
+        val throwable = runCatching {
             @Suppress("UNCHECKED_CAST")
             return result as Sub
+        }.exceptionOrNull()
+        if (throwable is ClassCastException) {
+            throw RuntimeException(
+                "Unable to cast deserialized value to specified type. Check your base serializer.",
+                throwable
+            )
         }
-        error("Unable to cast deserialized value to specified type. Check your base serializer.")
+        throw throwable!!
     }
 }

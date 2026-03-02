@@ -3,7 +3,7 @@
 package cn.rdlevel.rdkt.core.settings
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
-import cn.rdlevel.rdkt.core.serializers.MutableStringListSerializedInString
+import cn.rdlevel.rdkt.core.serialization.MutableStringListSerializedInString
 import cn.rdlevel.rdkt.core.settings.LevelSettings.Companion.CURRENT_LEVEL_VERSION
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmName
@@ -16,7 +16,7 @@ import kotlin.random.Random
 @Serializable
 public class LevelSettings {
     /**
-     * The version of the level. Currently, it is set to [63][CURRENT_LEVEL_VERSION].
+     * The version of the level. Currently, it is set to [64][CURRENT_LEVEL_VERSION].
      *
      * This library currently does not support levels with other versions.
      * If you want to use levels with other versions, please use the level editor to convert them to a supported version.
@@ -197,7 +197,7 @@ public class LevelSettings {
         /**
          * The current level version the level editor is using.
          */
-        public const val CURRENT_LEVEL_VERSION: Int = 63
+        public const val CURRENT_LEVEL_VERSION: Int = 64
     }
 }
 

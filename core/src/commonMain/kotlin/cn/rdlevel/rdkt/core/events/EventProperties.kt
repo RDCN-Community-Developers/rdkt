@@ -1,5 +1,8 @@
 package cn.rdlevel.rdkt.core.events
 
+import kotlinx.serialization.SerialName
+import kotlin.jvm.JvmStatic
+
 /**
  * An [Event] that can specify a beat manually.
  */
@@ -30,4 +33,22 @@ public interface DurationSpecificEvent : Event {
      * The duration of the event in beats.
      */
     public var duration: Double
+}
+
+/**
+ * An [Event] that is specific to a single row.
+ */
+public interface RowSpecificEvent : Event {
+    /**
+     * The row id the event is specifying.
+     */
+    @SerialName("row")
+    public var rowId: Int
+
+    public companion object {
+        @JvmStatic
+        public fun requireRowInBound(rowId: Int) {
+            require(rowId in 0..15) { "Row id must be between 0 and 15." }
+        }
+    }
 }

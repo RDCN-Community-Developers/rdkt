@@ -42,6 +42,7 @@ public sealed interface Event {
 /**
  * An abstraction of an [Event] that provides default implementations for some properties.
  */
+@Serializable
 public sealed class AbstractEvent: Event {
     override var bar: Int = 1
         set(value) {

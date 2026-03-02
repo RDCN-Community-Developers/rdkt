@@ -1,6 +1,6 @@
 @file:OptIn(RDKTInternalAPI::class)
 
-package cn.rdlevel.rdkt.core.serializers
+package cn.rdlevel.rdkt.core.serialization
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import kotlinx.serialization.KSerializer

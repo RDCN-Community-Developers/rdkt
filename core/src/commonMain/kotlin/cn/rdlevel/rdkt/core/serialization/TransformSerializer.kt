@@ -1,4 +1,4 @@
-package cn.rdlevel.rdkt.core.serializers
+package cn.rdlevel.rdkt.core.serialization
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import kotlinx.serialization.KSerializer
@@ -16,6 +16,7 @@ import kotlinx.serialization.encoding.Encoder
  * @param Data The data representation of the type.
  */
 @RDKTInternalAPI
+@SubclassOptInRequired(RDKTInternalAPI::class)
 public abstract class TransformSerializer<T, Data>(
     private val dataSerializer: KSerializer<Data>
 ) : KSerializer<T> {

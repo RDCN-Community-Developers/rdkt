@@ -1,11 +1,13 @@
 package cn.rdlevel.rdkt.core.events
 
 import cn.rdlevel.rdkt.core.RDLevel
+import kotlinx.serialization.Serializable
 
 /**
  * An event that can be customized by the developers.
  * Developers are encouraged to use this interface to create their own custom events.
  */
+@Serializable
 public abstract class CustomEvent : AbstractEvent() {
     /**
      * Applies this event to the given level.

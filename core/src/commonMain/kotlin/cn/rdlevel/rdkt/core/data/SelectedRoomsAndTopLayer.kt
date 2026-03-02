@@ -1,10 +1,10 @@
 @file:OptIn(RDKTInternalAPI::class)
-@file:JvmName("SelectedRoomsUtils")
+@file:JvmName("SelectedRoomUtil")
 
 package cn.rdlevel.rdkt.core.data
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
-import cn.rdlevel.rdkt.core.serializers.TransformSerializer
+import cn.rdlevel.rdkt.core.serialization.TransformSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.SetSerializer
 import kotlinx.serialization.builtins.serializer
@@ -79,7 +79,7 @@ public sealed interface SelectedRoomsAndTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SelectedRoomsAndTopLayer, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SelectedRoomsAndTopLayer, Set<Int>>(kotlinx.serialization.serializer()) {
         override fun toData(value: SelectedRoomsAndTopLayer): Set<Int> {
             return value.rooms
         }
@@ -403,6 +403,7 @@ public fun <T : SingleSelectedRoomOrTopLayer> singleRoomOf(kClass: KClass<T>, ro
  * @param rooms The set of room IDs to include in the selection.
  * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
  */
+@JvmName("of")
 public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(rooms: Set<Int>): T {
     return roomsOf(T::class, rooms)
 }
@@ -415,6 +416,7 @@ public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(rooms: Set<Int>
  * @param rooms Additional room IDs to include in the selection.
  * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
  */
+@JvmName("of")
 public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(room: Int, vararg rooms: Int): T {
     return roomsOf(T::class, room, *rooms)
 }
@@ -426,6 +428,7 @@ public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(room: Int, vara
  * @param room The ID of the selected room.
  * @return An instance of [SingleSelectedRoomOrTopLayer] of the specified type.
  */
+@JvmName("ofSingle")
 public inline fun <reified T : SingleSelectedRoomOrTopLayer> singleRoomOf(room: Int): T {
     return singleRoomOf(T::class, room)
 }
