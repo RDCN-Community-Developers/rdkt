@@ -197,7 +197,7 @@ public class LevelSettings {
         /**
          * The current level version the level editor is using.
          */
-        public const val CURRENT_LEVEL_VERSION: Int = 64
+        public const val CURRENT_LEVEL_VERSION: Int = 66
     }
 }
 
