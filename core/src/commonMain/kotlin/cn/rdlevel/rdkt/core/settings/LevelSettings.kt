@@ -16,7 +16,7 @@ import kotlin.random.Random
 @Serializable
 public class LevelSettings {
     /**
-     * The version of the level. Currently, it is set to [64][CURRENT_LEVEL_VERSION].
+     * The version of the level. Currently, it is set to [66][CURRENT_LEVEL_VERSION].
      *
      * This library currently does not support levels with other versions.
      * If you want to use levels with other versions, please use the level editor to convert them to a supported version.
