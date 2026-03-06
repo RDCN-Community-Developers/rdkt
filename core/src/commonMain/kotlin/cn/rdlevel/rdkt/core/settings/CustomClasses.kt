@@ -1,5 +1,6 @@
 package cn.rdlevel.rdkt.core.settings
 
+import cn.rdlevel.rdkt.core.annotations.RDDeprecated
 import cn.rdlevel.rdkt.core.settings.CustomClasses.INJURY
 
 
@@ -56,6 +57,6 @@ public object CustomClasses {
      * Replaces hearts with pumpkins.
      * Currently, this is broken and does not work.
      */
-    @Deprecated("This custom class is currently broken and does not work.")
+    @RDDeprecated
     public const val HALLOWEEN: String = "Halloween"
 }
