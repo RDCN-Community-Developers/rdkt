@@ -12,7 +12,7 @@ import kotlin.jvm.JvmStatic
  *
  * @property infoType The type of information to narrate (e.g., Connect, Update, Disconnect).
  * @property soundOnly Whether to only play the narration sound without any additional information.
- * @property skipsUnstable Whether the row being narrated has unstable row pattern that constantly changed. Will be ignored if [infoType] is [InfoType.DISCONNECT].
+ * @property skipsUnstable Whether the row being narrated has unstable row pattern that constantly changed. Will be ignored if [infoType] is [InfoType.DISCONNECT] or the row is a oneshot row.
  * @property customPlayer The custom player for which the narration is intended.
  */
 @Serializable
