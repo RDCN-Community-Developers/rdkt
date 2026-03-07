@@ -66,7 +66,10 @@ public data class SetGameSoundEvent private constructor(
     public object Serializer : JsonTransformingSerializer<SetGameSoundEvent>(DataSerializer) {
         @OptIn(RDKTInternalAPI::class)
         private object DataSerializer :
-            TransformSerializer<SetGameSoundEvent, SetGameSoundEvent>(generatedSerializer()) {
+            TransformSerializer<SetGameSoundEvent, SetGameSoundEvent>(
+                generatedSerializer().descriptor.serialName,
+                generatedSerializer()
+            ) {
             override fun toData(value: SetGameSoundEvent) = value
 
             override fun fromData(data: SetGameSoundEvent): SetGameSoundEvent {

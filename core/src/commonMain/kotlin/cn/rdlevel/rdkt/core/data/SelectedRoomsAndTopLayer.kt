@@ -79,7 +79,10 @@ public sealed interface SelectedRoomsAndTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SelectedRoomsAndTopLayer, Set<Int>>(kotlinx.serialization.serializer()) {
+        TransformSerializer<SelectedRoomsAndTopLayer, Set<Int>>(
+            "SelectedRoomsAndTopLayer",
+            kotlinx.serialization.serializer()
+        ) {
         override fun toData(value: SelectedRoomsAndTopLayer): Set<Int> {
             return value.rooms
         }
@@ -128,7 +131,10 @@ private sealed class AbstractSelectedRoomsAndTopLayer : SelectedRoomsAndTopLayer
 @Serializable(SelectedRoomsOrTopLayer.Serializer::class)
 public sealed interface SelectedRoomsOrTopLayer : SelectedRoomsAndTopLayer {
     public object Serializer :
-        TransformSerializer<SelectedRoomsOrTopLayer, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SelectedRoomsOrTopLayer, Set<Int>>(
+            "SelectedRoomsOrTopLayer",
+            SetSerializer(Int.serializer())
+        ) {
         override fun toData(value: SelectedRoomsOrTopLayer): Set<Int> {
             return value.rooms
         }
@@ -161,7 +167,10 @@ public sealed interface SingleSelectedRoomOrTopLayer : SelectedRoomsOrTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SingleSelectedRoomOrTopLayer, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SingleSelectedRoomOrTopLayer, Set<Int>>(
+            "SingleSelectedRoomOrTopLayer",
+            SetSerializer(Int.serializer())
+        ) {
         override fun toData(value: SingleSelectedRoomOrTopLayer): Set<Int> {
             return value.rooms
         }
@@ -214,7 +223,7 @@ public sealed interface SelectedRooms : SelectedRoomsOrTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SelectedRooms, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SelectedRooms, Set<Int>>("SelectedRooms", SetSerializer(Int.serializer())) {
         override fun toData(value: SelectedRooms): Set<Int> {
             return value.rooms
         }
@@ -248,7 +257,7 @@ public sealed interface SelectedTopLayer : SingleSelectedRoomOrTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SelectedTopLayer, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SelectedTopLayer, Set<Int>>("SelectedTopLayer", SetSerializer(Int.serializer())) {
         override fun toData(value: SelectedTopLayer): Set<Int> {
             return value.rooms
         }
@@ -285,7 +294,7 @@ public sealed interface SingleSelectedRoom : SingleSelectedRoomOrTopLayer, Selec
     }
 
     public object Serializer :
-        TransformSerializer<SingleSelectedRoom, Set<Int>>(SetSerializer(Int.serializer())) {
+        TransformSerializer<SingleSelectedRoom, Set<Int>>("SingleSelectedRoom", SetSerializer(Int.serializer())) {
         override fun toData(value: SingleSelectedRoom): Set<Int> {
             return value.rooms
         }

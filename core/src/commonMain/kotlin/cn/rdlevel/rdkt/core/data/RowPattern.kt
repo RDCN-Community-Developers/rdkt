@@ -123,7 +123,7 @@ public class RowPattern {
     }
 
     @OptIn(RDKTInternalAPI::class)
-    public object Serializer : TransformSerializer<RowPattern, String>(String.serializer()) {
+    public object Serializer : TransformSerializer<RowPattern, String>("RowPattern", String.serializer()) {
         override fun toData(value: RowPattern): String {
             return value.pattern
         }

@@ -58,7 +58,8 @@ public data class PulseFreeTimeBeatEvent @JvmOverloads constructor(
         public object Remove : Action("Remove")
     }
 
-    public object Serializer : TransformSerializer<PulseFreeTimeBeatEvent, Serializer.Data>(Data.serializer()) {
+    public object Serializer :
+        TransformSerializer<PulseFreeTimeBeatEvent, Serializer.Data>("PulseFreeTimeBeat", Data.serializer()) {
         override fun toData(value: PulseFreeTimeBeatEvent): Data {
             return Data.fromBase(value).apply {
                 action = value.action.action

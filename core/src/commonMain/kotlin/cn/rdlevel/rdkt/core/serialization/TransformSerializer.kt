@@ -18,10 +18,14 @@ import kotlinx.serialization.encoding.Encoder
 @RDKTInternalAPI
 @SubclassOptInRequired(RDKTInternalAPI::class)
 public abstract class TransformSerializer<T, Data>(
+    serialName: String,
     private val dataSerializer: KSerializer<Data>
 ) : KSerializer<T> {
-    override val descriptor: SerialDescriptor
-        get() = dataSerializer.descriptor
+    override val descriptor: SerialDescriptor = if (dataSerializer.descriptor.serialName == serialName) {
+        dataSerializer.descriptor
+    } else {
+        SerialDescriptor(serialName, dataSerializer.descriptor)
+    }
 
     override fun serialize(encoder: Encoder, value: T) {
         val data = toData(value)

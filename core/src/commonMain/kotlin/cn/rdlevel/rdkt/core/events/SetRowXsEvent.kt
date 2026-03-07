@@ -140,7 +140,7 @@ public data class SetRowXsEvent(
         }
     }
 
-    public object Serializer : TransformSerializer<SetRowXsEvent, Serializer.Data>(Data.serializer()) {
+    public object Serializer : TransformSerializer<SetRowXsEvent, Serializer.Data>("SetRowXs", Data.serializer()) {
         override fun toData(value: SetRowXsEvent): Data {
             return Data.fromBase(value).apply {
                 pattern = value.pattern

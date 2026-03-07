@@ -84,7 +84,7 @@ public abstract class AudioGroup(
      * @param soundType The type of sound group.
      */
     public abstract class BaseSerializer<T : AudioGroup>(protected val soundType: String) :
-        TransformSerializer<T, List<RawSubGroupAudioData>>(kotlinx.serialization.serializer()) {
+        TransformSerializer<T, List<RawSubGroupAudioData>>(soundType, kotlinx.serialization.serializer()) {
         /**
          * Creates an instance of [T] from a map of subtype identifiers to [SubGroupAudioData].
          */
