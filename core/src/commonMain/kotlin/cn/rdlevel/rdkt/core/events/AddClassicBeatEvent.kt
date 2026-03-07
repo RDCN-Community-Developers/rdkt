@@ -17,6 +17,7 @@ import kotlin.jvm.JvmStatic
  * @property sound The sound to play. Setting this to null will use the row's current sound.
  */
 @Serializable
+@SerialName("AddClassicBeat")
 public data class AddClassicBeatEvent(
     var tick: Double = 1.0,
     var swing: Double = 0.0,
@@ -28,6 +29,7 @@ public data class AddClassicBeatEvent(
     /**
      * Represents the pattern of Xs to set on the row when [hold] is on.
      */
+    @Serializable
     public enum class SetXMode {
         /**
          * Do not change the pattern on the row.
