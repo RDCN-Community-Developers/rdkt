@@ -124,7 +124,7 @@ public class LevelSettings {
         }
 
     /**
-     * Whether the use grayscale for the syringe strip.
+     * Whether to use grayscale for the syringe strip.
      */
     public var songLabelGrayscale: Boolean = false
 

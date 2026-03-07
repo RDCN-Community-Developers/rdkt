@@ -12,6 +12,13 @@ public interface BeatSpecificEvent : Event {
      * This property is mutable, allowing the beat to be set directly.
      */
     override var beat: Double
+
+    public companion object {
+        @JvmStatic
+        public fun requireBeatInBound(beat: Double) {
+            require(beat >= 1) { "Beat must be greater than or equal to 1." }
+        }
+    }
 }
 
 /**
