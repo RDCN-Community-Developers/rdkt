@@ -5,6 +5,7 @@ package cn.rdlevel.rdkt.core.events
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import cn.rdlevel.rdkt.core.serialization.TransformSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmOverloads
 
@@ -15,6 +16,7 @@ import kotlin.jvm.JvmOverloads
  * @property hold The hold time this pulse will last in beats. 0 means disable the hold.
  */
 @Serializable(PulseFreeTimeBeatEvent.Serializer::class)
+@SerialName("PulseFreeTimeBeat")
 public data class PulseFreeTimeBeatEvent @JvmOverloads constructor(
     var action: Action = Action.Increment,
     var hold: Int = 0,

@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
  * @property sound The pulse sound [AudioData] to set for the specified row.
  */
 @Serializable
+@SerialName("SetBeatSound")
 public data class SetBeatSoundEvent(
     var sound: AudioData,
 ) : BeatSpecificSoundEvent(), RowSpecificEvent {
