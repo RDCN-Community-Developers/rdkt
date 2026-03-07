@@ -60,11 +60,11 @@ public data class PulseFreeTimeBeatEvent @JvmOverloads constructor(
 
     public object Serializer : TransformSerializer<PulseFreeTimeBeatEvent, Serializer.Data>(Data.serializer()) {
         override fun toData(value: PulseFreeTimeBeatEvent): Data {
-            return Data(
-                action = value.action.action,
-                hold = value.hold,
-                customPulse = (value.action as? Action.Custom)?.pulse,
-            )
+            return Data.fromBase(value).apply {
+                action = value.action.action
+                hold = value.hold
+                customPulse = (value.action as? Action.Custom)?.pulse
+            }
         }
 
         override fun fromData(data: Data): PulseFreeTimeBeatEvent {
@@ -78,7 +78,7 @@ public data class PulseFreeTimeBeatEvent @JvmOverloads constructor(
             return PulseFreeTimeBeatEvent(
                 action = action,
                 hold = data.hold,
-            )
+            ).apply { copyBaseFrom(data) }
         }
 
         @RDKTInternalAPI
@@ -87,6 +87,12 @@ public data class PulseFreeTimeBeatEvent @JvmOverloads constructor(
             var action: String = "Increment",
             var hold: Int = 0,
             var customPulse: Int? = null,
-        )
+        ) : RowEvent() {
+            public companion object {
+                public fun fromBase(other: RowEvent): Data {
+                    return Data().apply { copyBaseFrom(other) }
+                }
+            }
+        }
     }
 }

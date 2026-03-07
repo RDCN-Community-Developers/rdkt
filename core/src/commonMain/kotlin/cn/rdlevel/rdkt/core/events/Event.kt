@@ -55,4 +55,14 @@ public sealed class AbstractEvent: Event {
     override var tag: String? = null
 
     override var runTag: Boolean = false
+
+    /**
+     * Copies base properties from another [AbstractEvent] to this event. This is mainly for serialization and deserialization that uses custom serializers.
+     */
+    protected fun copyBaseFrom(other: AbstractEvent) {
+        this.bar = other.bar
+        this.active = other.active
+        this.tag = other.tag
+        this.runTag = other.runTag
+    }
 }

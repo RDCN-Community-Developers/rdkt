@@ -9,6 +9,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 public sealed class SoundEvent : AbstractEvent(), YSpecificEvent {
     override var y: Int = 0
+
+    protected fun copyBaseFrom(other: SoundEvent) {
+        super.copyBaseFrom(other)
+        this.y = other.y
+    }
 }
 
 /**
@@ -21,6 +26,11 @@ public sealed class BeatSpecificSoundEvent : BeatSpecificEvent, SoundEvent() {
             BeatSpecificEvent.requireBeatInBound(value)
             field = value
         }
+
+    protected fun copyBaseFrom(other: BeatSpecificSoundEvent) {
+        super.copyBaseFrom(other)
+        this.beat = other.beat
+    }
 }
 
 /**
@@ -45,6 +55,13 @@ public sealed class RowEvent : AbstractEvent(), BeatSpecificEvent, RowSpecificEv
      * This property does not affect the actual position in the editor for [RowEvent].
      */
     override var y: Int = 0
+
+    protected fun copyBaseFrom(other: RowEvent) {
+        super.copyBaseFrom(other)
+        this.beat = other.beat
+        this.rowId = other.rowId
+        this.y = other.y
+    }
 
 }
 

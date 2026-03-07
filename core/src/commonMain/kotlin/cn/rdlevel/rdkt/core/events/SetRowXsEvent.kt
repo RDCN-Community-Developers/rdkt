@@ -142,7 +142,9 @@ public data class SetRowXsEvent(
 
     public object Serializer : TransformSerializer<SetRowXsEvent, Serializer.Data>(Data.serializer()) {
         override fun toData(value: SetRowXsEvent): Data {
-            return Data(pattern = value.pattern).apply {
+            return Data.fromBase(value).apply {
+                pattern = value.pattern
+
                 val synco = value.synco
                 syncoBeat = synco.beat
                 if (synco !is SyncoSettings.Enabled) {
@@ -182,7 +184,7 @@ public data class SetRowXsEvent(
                     }
                 }
             }
-            return SetRowXsEvent(pattern = data.pattern, synco = synco)
+            return SetRowXsEvent(pattern = data.pattern, synco = synco).apply { copyBaseFrom(data) }
         }
 
         @Serializable
@@ -196,6 +198,12 @@ public data class SetRowXsEvent(
             var syncoStyle: String = "Chirp",
             var syncoPlayModifierSound: Boolean = true,
             var syncoPlayModifierOffSound: Boolean = true,
-        )
+        ) : RowEvent() {
+            public companion object {
+                public fun fromBase(other: RowEvent): Data {
+                    return Data().apply { copyBaseFrom(other) }
+                }
+            }
+        }
     }
 }
