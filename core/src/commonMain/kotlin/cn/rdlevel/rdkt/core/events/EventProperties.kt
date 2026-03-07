@@ -22,7 +22,7 @@ public interface BeatSpecificEvent : Event {
 }
 
 /**
- * An [Event] that is specific to a Y position, aka the row position in the editor.
+ * An [Event] that is specific to a Y position, usually the row position in the editor.
  */
 public interface YSpecificEvent : Event {
     /**

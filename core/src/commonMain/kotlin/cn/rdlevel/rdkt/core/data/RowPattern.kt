@@ -14,7 +14,7 @@ public class RowPattern {
     /**
      * The pattern string representing the pulse pattern of the row. It must be exactly 6 characters long, and each character must be one of the allowed characters defined in [ALLOWED_CHARS].
      */
-    public var pattern: String = "------"
+    public var pattern: String = DEFAULT_PATTERN_STRING
         set(value) {
             require(value.length == 6) { "Pulse pattern must be 6 characters long." }
             require(value.all { it in ALLOWED_CHARS }) {
@@ -50,7 +50,7 @@ public class RowPattern {
      * Constructs a [RowPattern] with the specified pattern string. The pattern string must be exactly 6 characters long, and each character must be one of the allowed characters defined in [ALLOWED_CHARS].
      */
     public constructor(
-        pattern: String = "------",
+        pattern: String = DEFAULT_PATTERN_STRING,
     ) {
         this.pattern = pattern
     }
@@ -118,6 +118,8 @@ public class RowPattern {
          * Characters allowed in the pattern string, corresponding to the defined pulse types.
          */
         public const val ALLOWED_CHARS: String = "-xudbr"
+
+        public const val DEFAULT_PATTERN_STRING: String = "------"
     }
 
     @OptIn(RDKTInternalAPI::class)
