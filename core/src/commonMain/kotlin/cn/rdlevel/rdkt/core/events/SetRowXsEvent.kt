@@ -4,9 +4,9 @@ package cn.rdlevel.rdkt.core.events
 
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
-import cn.rdlevel.rdkt.core.data.RowPattern
-import cn.rdlevel.rdkt.core.data.SyncoSettings
-import cn.rdlevel.rdkt.core.data.SyncoStyle
+import cn.rdlevel.rdkt.core.data.row.RowPattern
+import cn.rdlevel.rdkt.core.data.row.SyncoSettings
+import cn.rdlevel.rdkt.core.data.row.SyncoStyle
 import cn.rdlevel.rdkt.core.serialization.TransformSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -15,7 +15,7 @@ import kotlinx.serialization.Serializable
  * Sets the row pattern and synco settings for a row.
  *
  * @property pattern The [RowPattern] representing the pulse pattern of the row.
- * @property synco The [cn.rdlevel.rdkt.core.data.SyncoSettings] representing the synco settings of the row.
+ * @property synco The [SyncoSettings] representing the synco settings of the row.
  */
 @Serializable(SetRowXsEvent.Serializer::class)
 @SerialName("SetRowXs")

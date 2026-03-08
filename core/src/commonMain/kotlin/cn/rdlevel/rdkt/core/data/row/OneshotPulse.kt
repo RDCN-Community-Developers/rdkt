@@ -1,4 +1,4 @@
-package cn.rdlevel.rdkt.core.data
+package cn.rdlevel.rdkt.core.data.row
 
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic

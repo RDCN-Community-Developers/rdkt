@@ -1,6 +1,6 @@
 package cn.rdlevel.rdkt.core.test
 
-import cn.rdlevel.rdkt.core.data.RowPattern
+import cn.rdlevel.rdkt.core.data.row.RowPattern
 import cn.rdlevel.rdkt.core.events.Event
 import cn.rdlevel.rdkt.core.events.NarrateRowInfoEvent
 import kotlinx.serialization.ExperimentalSerializationApi

@@ -1,7 +1,7 @@
-package cn.rdlevel.rdkt.core.data
+package cn.rdlevel.rdkt.core.data.row
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
-import cn.rdlevel.rdkt.core.data.RowPattern.Companion.ALLOWED_CHARS
+import cn.rdlevel.rdkt.core.data.row.RowPattern.Companion.ALLOWED_CHARS
 import cn.rdlevel.rdkt.core.serialization.TransformSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer

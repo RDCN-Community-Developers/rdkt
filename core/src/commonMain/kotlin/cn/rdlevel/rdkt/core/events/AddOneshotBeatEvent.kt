@@ -4,9 +4,9 @@ package cn.rdlevel.rdkt.core.events
 
 
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
-import cn.rdlevel.rdkt.core.data.OneshotFreezeBurn
-import cn.rdlevel.rdkt.core.data.OneshotHold
-import cn.rdlevel.rdkt.core.data.OneshotPulse
+import cn.rdlevel.rdkt.core.data.row.OneshotFreezeBurn
+import cn.rdlevel.rdkt.core.data.row.OneshotHold
+import cn.rdlevel.rdkt.core.data.row.OneshotPulse
 import cn.rdlevel.rdkt.core.serialization.TransformSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

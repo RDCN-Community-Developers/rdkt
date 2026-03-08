@@ -1,7 +1,7 @@
 package cn.rdlevel.rdkt.core.events
 
 
-import cn.rdlevel.rdkt.core.data.RowPattern
+import cn.rdlevel.rdkt.core.data.row.RowPattern
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
