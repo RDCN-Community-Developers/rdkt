@@ -56,7 +56,7 @@ public class SetCountingSoundEvent private constructor(
      */
     public var volume: Int = 100
         set(value) {
-            require(value in 0..100) { "Volume must be between 0 and 100." }
+            require(value in 0..200) { "Volume must be between 0 and 200." }
             field = value
         }
 
