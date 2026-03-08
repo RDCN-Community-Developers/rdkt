@@ -1,5 +1,6 @@
 package cn.rdlevel.rdkt.core.events
 
+import cn.rdlevel.rdkt.core.annotations.RDDeprecated
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmOverloads
@@ -107,6 +108,7 @@ public class SayReadyGetSetGoEvent @JvmOverloads constructor(
          * Avoid using this to cue oneshot rows.
          */
         @SerialName("SayReadyGetSetGo")
+        @RDDeprecated
         READY_GET_SET_GO,
 
         /**
