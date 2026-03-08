@@ -12,11 +12,17 @@ import kotlinx.serialization.builtins.serializer
 @Serializable(RowPattern.Serializer::class)
 public class RowPattern {
     /**
-     * The pattern string representing the pulse pattern of the row. It must be exactly 6 characters long, and each character must be one of the allowed characters defined in [ALLOWED_CHARS].
+     * The pattern string representing the pulse pattern of the row in a 6 beat form.
+     *
+     * When setting this property, the value must be exactly 6 or 7 characters long, and each character, except for the 7th one, must be one of the allowed characters defined in [ALLOWED_CHARS].
      */
     public var pattern: String = DEFAULT_PATTERN_STRING
         set(value) {
-            require(value.length == 6) { "Pulse pattern must be 6 characters long." }
+            var value = value
+            if (value.length == 7) {
+                value = value.dropLast(1)
+            }
+            require(value.length == 6) { "Pulse pattern must either 6 or 7 characters long." }
             require(value.all { it in ALLOWED_CHARS }) {
                 "Pulse pattern can only contain '$ALLOWED_CHARS', but incorrect pattern found: '$value'."
             }
