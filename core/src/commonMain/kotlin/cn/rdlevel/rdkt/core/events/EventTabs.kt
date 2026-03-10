@@ -37,7 +37,7 @@ public sealed class BeatSpecificSoundEvent : BeatSpecificEvent, SoundEvent() {
  * An event that belongs to the rows tab.
  */
 @Serializable
-public sealed class RowEvent : AbstractEvent(), BeatSpecificEvent, RowSpecificEvent, YSpecificEvent {
+public sealed class RowEvent : BeatSpecificEvent, AbstractEvent(), RowSpecificEvent, YSpecificEvent {
     override var beat: Double = 1.0
         set(value) {
             BeatSpecificEvent.requireBeatInBound(value)
@@ -69,7 +69,21 @@ public sealed class RowEvent : AbstractEvent(), BeatSpecificEvent, RowSpecificEv
  * An event that belongs to the actions tab.
  */
 @Serializable
-public sealed class ActionEvent : AbstractEvent()
+public sealed class ActionEvent : BeatSpecificEvent, AbstractEvent(), YSpecificEvent {
+    override var beat: Double = 1.0
+        set(value) {
+            BeatSpecificEvent.requireBeatInBound(value)
+            field = value
+        }
+
+    override var y: Int = 0
+
+    protected fun copyBaseFrom(other: ActionEvent) {
+        super.copyBaseFrom(other)
+        this.beat = other.beat
+        this.y = other.y
+    }
+}
 
 /**
  * An event that belongs to the rooms tab.
