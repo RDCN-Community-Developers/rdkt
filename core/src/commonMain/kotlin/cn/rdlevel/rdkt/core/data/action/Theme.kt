@@ -357,13 +357,6 @@ public sealed interface VariedTheme<E : Enum<E>> : Theme {
     public var variant: E
 }
 
-@Serializable
-public data class ThemePosition(
-    var x: Int = 0,
-    var duration: Double = 0.0,
-    var ease: Easing = Easing.LINEAR,
-)
-
 public sealed interface PositionedTheme : Theme {
     public var enablePosition: Boolean
 
