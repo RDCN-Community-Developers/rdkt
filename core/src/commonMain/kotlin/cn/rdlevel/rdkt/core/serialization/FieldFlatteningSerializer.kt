@@ -24,14 +24,14 @@ public annotation class Flatten
  *
  * When serializing, the fields annotated with [Flatten] will be flattened into the parent JSON object.
  * When deserializing, the fields annotated with [Flatten] will be deserialized from the parent JSON object,
- * with elements that do not belong to any non-flattened fields.
+ * with elements that do not belong to any non-flattened fields or [JsonClassDiscriminator] of the base class.
  *
  * It's recommended to annotate classes that need to be flattened with [JsonIgnoreUnknownKeys][kotlinx.serialization.json.JsonIgnoreUnknownKeys]
  * when there are multiple flattened fields, so that fields that only belong to some classes can be ignored when deserializing other classes.
  *
  * This serializer only supports JSON encoding and decoding.
  *
- * @param tSerializer The serializer, usually the [generated one][kotlinx.serialization.KeepGeneratedSerializer], for the type T that this serializer will delegate to.
+ * @param tSerializer The serializer, usually the [generated one][kotlinx.serialization.KeepGeneratedSerializer], for the type [T] that this serializer will delegate to.
  */
 @OptIn(ExperimentalSerializationApi::class)
 @RDKTInternalAPI
