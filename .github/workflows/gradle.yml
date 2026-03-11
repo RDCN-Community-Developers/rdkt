@@ -54,3 +54,9 @@ jobs:
         uses: gradle/gradle-build-action@ce999babab2de1c4b649dc15f0ee67e6246c994f
         with:
           arguments: ${{ matrix.target }}
+      - name: Notify Discord If Failed
+        if: ${{ cancelled() }}
+        uses: nitecon/discord-action@v2
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          job-status: ${{ job.status }}
