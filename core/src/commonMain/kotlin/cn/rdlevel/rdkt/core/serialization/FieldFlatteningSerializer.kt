@@ -4,13 +4,12 @@ import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialInfo
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonTransformingSerializer
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.*
 
 /**
  * Annotation to indicate that a field should be flattened when serialized.
+ *
+ * @see FieldFlatteningSerializer
  */
 @OptIn(ExperimentalSerializationApi::class)
 @SerialInfo
@@ -34,12 +33,15 @@ public annotation class Flatten
  *
  * @param tSerializer The serializer, usually the [generated one][kotlinx.serialization.KeepGeneratedSerializer], for the type T that this serializer will delegate to.
  */
+@OptIn(ExperimentalSerializationApi::class)
 @RDKTInternalAPI
 public class FieldFlatteningSerializer<T>(
-    tSerializer: KSerializer<T>
+    private val tSerializer: KSerializer<T>
 ) : JsonTransformingSerializer<T>(tSerializer) {
     private val flattenFieldNames: MutableList<String> = mutableListOf()
     private val notFlattenFieldNames: MutableList<String> = mutableListOf()
+    private val classDiscriminator: String =
+        descriptor.annotations.filterIsInstance<JsonClassDiscriminator>().firstOrNull()?.discriminator ?: "type"
 
     init {
         (0..<descriptor.elementsCount).forEach {
@@ -72,7 +74,7 @@ public class FieldFlatteningSerializer<T>(
                 element.jsonObject.forEach { (k, v) ->
                     if (k in notFlattenFieldNames) {
                         this@base.put(k, v)
-                    } else {
+                    } else if (k != classDiscriminator) {
                         put(k, v)
                     }
                 }

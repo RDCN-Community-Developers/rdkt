@@ -123,6 +123,10 @@ private sealed class AbstractSelectedRoomsAndTopLayer : SelectedRoomsAndTopLayer
     override fun hashCode(): Int {
         return rooms.hashCode()
     }
+
+    override fun toString(): String {
+        return rooms.toString()
+    }
 }
 
 /**
