@@ -3,6 +3,11 @@ package cn.rdlevel.rdkt.core.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The easing function to use for some animations.
+ *
+ * @see <a href="https://easings.net/">Easings.net</a> for more details on the easing functions.
+ */
 @Serializable
 public enum class Easing {
     @SerialName("Linear")

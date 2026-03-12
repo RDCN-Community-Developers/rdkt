@@ -12,6 +12,9 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonClassDiscriminator
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
+/**
+ * Themes that can be used to set theme in [SetThemeEvent][cn.rdlevel.rdkt.core.events.SetThemeEvent].
+ */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonClassDiscriminator("preset")
@@ -353,19 +356,49 @@ public sealed interface Theme {
     public class ProceduralTree : AbstractTheme()
 }
 
+/**
+ * A theme that has variants.
+ *
+ * @property variant The variant of the theme.
+ */
 public sealed interface VariedTheme<E : Enum<E>> : Theme {
     public var variant: E
 }
 
+/**
+ * A theme that can have its position adjusted.
+ */
 public sealed interface PositionedTheme : Theme {
+    /**
+     * Whether to enable position adjustment for the theme. If false, the position of the theme will be default or unchanged.
+     */
     public var enablePosition: Boolean
 
+    /**
+     * The valid range for the [positionX].
+     */
     public val positionXRange: ClosedFloatingPointRange<Double>
 
+    /**
+     * The X position of the theme pixels. The default position is 0.
+     * The valid range depends on the theme, and should be within [positionXRange].
+     *
+     * Will be ignored if [enablePosition] is false.
+     */
     public var positionX: Double
 
+    /**
+     * The duration of the position change animation in beats.
+     *
+     * Will be ignored if [enablePosition] is false.
+     */
     public var positionDuration: Double
 
+    /**
+     * The easing function for the position change animation.
+     *
+     * Will be ignored if [enablePosition] is false.
+     */
     public var positionEase: Easing
 }
 

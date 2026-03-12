@@ -11,6 +11,11 @@ import cn.rdlevel.rdkt.core.serialization.Flatten
 import cn.rdlevel.rdkt.core.serialization.flatten
 import kotlinx.serialization.*
 
+/**
+ * Sets the theme for the selected rooms.
+ *
+ * @property theme The theme to set.
+ */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable(SetThemeEvent.Serializer::class)
 @KeepGeneratedSerializer
