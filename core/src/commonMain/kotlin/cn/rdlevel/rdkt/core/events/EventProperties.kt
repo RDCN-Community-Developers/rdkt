@@ -68,68 +68,68 @@ public interface RoomsAndTopLayerSpecificEvent : Event {
     /**
      * The rooms or the top layer the event is specifying.
      */
-    public val rooms: SelectedRoomsAndTopLayer
+    public val rooms: RoomsAndTopLayer
 }
 
 /**
  * The mutable version of [RoomsAndTopLayerSpecificEvent].
  */
 public interface MutableRoomsAndTopLayerSpecificEvent : RoomsAndTopLayerSpecificEvent {
-    override var rooms: SelectedRoomsAndTopLayer
+    override var rooms: RoomsAndTopLayer
 }
 
 /**
  * An [Event] that is specific to rooms or the top layer.
  */
 public interface RoomsOrTopLayerSpecificEvent : RoomsAndTopLayerSpecificEvent {
-    override val rooms: SelectedRoomsOrTopLayer
+    override val rooms: RoomsOrTopLayer
 }
 
 /**
  * The mutable version of [RoomsOrTopLayerSpecificEvent].
  */
 public interface MutableRoomsOrTopLayerSpecificEvent : RoomsOrTopLayerSpecificEvent {
-    override var rooms: SelectedRoomsOrTopLayer
+    override var rooms: RoomsOrTopLayer
 }
 
 /**
  * An [Event] that is specific to a single room or the top layer.
  */
 public interface SingleRoomOrTopLayerSpecificEvent : RoomsOrTopLayerSpecificEvent {
-    override val rooms: SingleSelectedRoomOrTopLayer
+    override val rooms: SingleRoomOrTopLayer
 }
 
 /**
  * The mutable version of [SingleRoomOrTopLayerSpecificEvent].
  */
 public interface MutableSingleRoomOrTopLayerSpecificEvent : SingleRoomOrTopLayerSpecificEvent {
-    override var rooms: SingleSelectedRoomOrTopLayer
+    override var rooms: SingleRoomOrTopLayer
 }
 
 /**
  * An [Event] that is specific to rooms.
  */
 public interface RoomsSpecificEvent : RoomsOrTopLayerSpecificEvent {
-    override val rooms: SelectedRooms
+    override val rooms: Rooms
 }
 
 /**
  * The mutable version of [RoomsSpecificEvent].
  */
 public interface MutableRoomsSpecificEvent : RoomsSpecificEvent {
-    override var rooms: SelectedRooms
+    override var rooms: Rooms
 }
 
 /**
  * An [Event] that is specific to a single room.
  */
 public interface SingleRoomSpecificEvent : SingleRoomOrTopLayerSpecificEvent, RoomsSpecificEvent {
-    override val rooms: SingleSelectedRoom
+    override val rooms: SingleRoom
 }
 
 /**
  * The mutable version of [SingleRoomSpecificEvent].
  */
 public interface MutableSingleRoomSpecificEvent : SingleRoomSpecificEvent {
-    override var rooms: SingleSelectedRoom
+    override var rooms: SingleRoom
 }

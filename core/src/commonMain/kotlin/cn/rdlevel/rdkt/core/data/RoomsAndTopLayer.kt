@@ -1,5 +1,5 @@
 @file:OptIn(RDKTInternalAPI::class)
-@file:JvmName("SelectedRoomUtil")
+@file:JvmName("RoomsAndTopLayerUtil")
 
 package cn.rdlevel.rdkt.core.data
 
@@ -19,8 +19,8 @@ import kotlin.reflect.KClass
  * All implementations of this interface must contain at least one room, or the top layer.
  * Failing to do so will result in an exception.
  */
-@Serializable(SelectedRoomsAndTopLayer.Serializer::class)
-public sealed interface SelectedRoomsAndTopLayer {
+@Serializable(RoomsAndTopLayer.Serializer::class)
+public sealed interface RoomsAndTopLayer {
     /**
      * The room IDs that are selected.
      */
@@ -42,11 +42,11 @@ public sealed interface SelectedRoomsAndTopLayer {
         return TOP_LAYER in rooms
     }
 
-    public operator fun plus(other: SelectedRoomsAndTopLayer): SelectedRoomsAndTopLayer {
+    public operator fun plus(other: RoomsAndTopLayer): RoomsAndTopLayer {
         return of(rooms + other.rooms)
     }
 
-    private class Impl(override val rooms: Set<Int>) : AbstractSelectedRoomsAndTopLayer(), SelectedRoomsAndTopLayer {
+    private class Impl(override val rooms: Set<Int>) : AbstractRoomsAndTopLayer(), RoomsAndTopLayer {
         init {
             requireNotEmpty()
             requireAllRoomsOrTopLayer()
@@ -55,68 +55,68 @@ public sealed interface SelectedRoomsAndTopLayer {
 
     public companion object {
         /**
-         * Creates a new instance of [SelectedRoomsAndTopLayer].
+         * Creates a new instance of [RoomsAndTopLayer].
          *
          * @param rooms The set of selected room IDs.
-         * @return A new instance of [SelectedRoomsAndTopLayer] with the specified room IDs.
+         * @return A new instance of [RoomsAndTopLayer] with the specified room IDs.
          */
         @JvmStatic
-        public fun of(rooms: Set<Int>): SelectedRoomsAndTopLayer {
+        public fun of(rooms: Set<Int>): RoomsAndTopLayer {
             return Impl(rooms)
         }
 
         /**
-         * Creates a new instance of [SelectedRoomsAndTopLayer] with the specified room IDs.
+         * Creates a new instance of [RoomsAndTopLayer] with the specified room IDs.
          *
          * @param room The ID of the first selected room.
          * @param rooms Additional room IDs to include in the selection.
-         * @return A new instance of [SelectedRoomsAndTopLayer] containing the specified room IDs.
+         * @return A new instance of [RoomsAndTopLayer] containing the specified room IDs.
          */
         @JvmStatic
-        public fun of(room: Int, vararg rooms: Int): SelectedRoomsAndTopLayer {
+        public fun of(room: Int, vararg rooms: Int): RoomsAndTopLayer {
             return of(setOf(room) + rooms.toSet())
         }
     }
 
     public object Serializer :
-        TransformSerializer<SelectedRoomsAndTopLayer, Set<Int>>(
+        TransformSerializer<RoomsAndTopLayer, Set<Int>>(
             "SelectedRoomsAndTopLayer",
             kotlinx.serialization.serializer()
         ) {
-        override fun toData(value: SelectedRoomsAndTopLayer): Set<Int> {
+        override fun toData(value: RoomsAndTopLayer): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SelectedRoomsAndTopLayer {
+        override fun fromData(data: Set<Int>): RoomsAndTopLayer {
             return of(data)
         }
     }
 }
 
-public operator fun SelectedRoomsAndTopLayer.contains(id: Int): Boolean {
+public operator fun RoomsAndTopLayer.contains(id: Int): Boolean {
     return containsRoom(id)
 }
 
-private fun SelectedRoomsAndTopLayer.requireNotEmpty() {
+private fun RoomsAndTopLayer.requireNotEmpty() {
     require(rooms.isNotEmpty()) { "Selected rooms must not be empty." }
 }
 
-private fun SelectedRoomsAndTopLayer.requireAllRoomsOrTopLayer() {
+private fun RoomsAndTopLayer.requireAllRoomsOrTopLayer() {
     require(rooms.all { it in ROOM1..TOP_LAYER }) {
         "Selected rooms must only contain room IDs from 0 to 3 or the top layer."
     }
 }
 
-private fun SelectedRoomsAndTopLayer.requireAllRooms() {
+private fun RoomsAndTopLayer.requireAllRooms() {
     require(rooms.all { it in ROOM1..ROOM4 }) {
         "Selected rooms must only contain room IDs from 0 to 3."
     }
 }
 
-private sealed class AbstractSelectedRoomsAndTopLayer : SelectedRoomsAndTopLayer {
+private sealed class AbstractRoomsAndTopLayer : RoomsAndTopLayer {
     override operator fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is SelectedRoomsAndTopLayer) return false
+        if (other !is RoomsAndTopLayer) return false
         return rooms == other.rooms
     }
 
@@ -132,18 +132,18 @@ private sealed class AbstractSelectedRoomsAndTopLayer : SelectedRoomsAndTopLayer
 /**
  * Represents a collection of either normal rooms or the top layer.
  */
-@Serializable(SelectedRoomsOrTopLayer.Serializer::class)
-public sealed interface SelectedRoomsOrTopLayer : SelectedRoomsAndTopLayer {
+@Serializable(RoomsOrTopLayer.Serializer::class)
+public sealed interface RoomsOrTopLayer : RoomsAndTopLayer {
     public object Serializer :
-        TransformSerializer<SelectedRoomsOrTopLayer, Set<Int>>(
+        TransformSerializer<RoomsOrTopLayer, Set<Int>>(
             "SelectedRoomsOrTopLayer",
             SetSerializer(Int.serializer())
         ) {
-        override fun toData(value: SelectedRoomsOrTopLayer): Set<Int> {
+        override fun toData(value: RoomsOrTopLayer): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SelectedRoomsOrTopLayer {
+        override fun fromData(data: Set<Int>): RoomsOrTopLayer {
             return roomsOf(data)
         }
     }
@@ -152,8 +152,8 @@ public sealed interface SelectedRoomsOrTopLayer : SelectedRoomsAndTopLayer {
 /**
  * Represents a collection of either a normal room or the top layer.
  */
-@Serializable(SingleSelectedRoomOrTopLayer.Serializer::class)
-public sealed interface SingleSelectedRoomOrTopLayer : SelectedRoomsOrTopLayer {
+@Serializable(SingleRoomOrTopLayer.Serializer::class)
+public sealed interface SingleRoomOrTopLayer : RoomsOrTopLayer {
     /**
      * The single selected room ID.
      */
@@ -171,15 +171,15 @@ public sealed interface SingleSelectedRoomOrTopLayer : SelectedRoomsOrTopLayer {
     }
 
     public object Serializer :
-        TransformSerializer<SingleSelectedRoomOrTopLayer, Set<Int>>(
+        TransformSerializer<SingleRoomOrTopLayer, Set<Int>>(
             "SingleSelectedRoomOrTopLayer",
             SetSerializer(Int.serializer())
         ) {
-        override fun toData(value: SingleSelectedRoomOrTopLayer): Set<Int> {
+        override fun toData(value: SingleRoomOrTopLayer): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SingleSelectedRoomOrTopLayer {
+        override fun fromData(data: Set<Int>): SingleRoomOrTopLayer {
             return roomsOf(data)
         }
     }
@@ -188,13 +188,13 @@ public sealed interface SingleSelectedRoomOrTopLayer : SelectedRoomsOrTopLayer {
 /**
  * Represents a collection of selected rooms, not including the top layer.
  */
-@Serializable(SelectedRooms.Serializer::class)
-public sealed interface SelectedRooms : SelectedRoomsOrTopLayer {
-    public operator fun plus(other: SelectedRooms): SelectedRooms {
+@Serializable(Rooms.Serializer::class)
+public sealed interface Rooms : RoomsOrTopLayer {
+    public operator fun plus(other: Rooms): Rooms {
         return of(rooms + other.rooms)
     }
 
-    private class Impl(override val rooms: Set<Int>) : AbstractSelectedRoomsAndTopLayer(), SelectedRooms {
+    private class Impl(override val rooms: Set<Int>) : AbstractRoomsAndTopLayer(), Rooms {
         init {
             requireNotEmpty()
             requireAllRooms()
@@ -203,36 +203,36 @@ public sealed interface SelectedRooms : SelectedRoomsOrTopLayer {
 
     public companion object {
         /**
-         * Creates a new instance of [SelectedRooms].
+         * Creates a new instance of [Rooms].
          *
          * @param rooms The set of selected room IDs.
-         * @return A new instance of [SelectedRooms] with the specified room IDs.
+         * @return A new instance of [Rooms] with the specified room IDs.
          */
         @JvmStatic
-        public fun of(rooms: Set<Int>): SelectedRooms {
+        public fun of(rooms: Set<Int>): Rooms {
             return Impl(rooms)
         }
 
         /**
-         * Creates a new instance of [SelectedRooms] with the specified room IDs.
+         * Creates a new instance of [Rooms] with the specified room IDs.
          *
          * @param room The ID of the first selected room.
          * @param rooms Additional room IDs to include in the selection.
-         * @return A new instance of [SelectedRooms] containing the specified room IDs.
+         * @return A new instance of [Rooms] containing the specified room IDs.
          */
         @JvmStatic
-        public fun of(room: Int, vararg rooms: Int): SelectedRooms {
+        public fun of(room: Int, vararg rooms: Int): Rooms {
             return of(setOf(room) + rooms.toSet())
         }
     }
 
     public object Serializer :
-        TransformSerializer<SelectedRooms, Set<Int>>("SelectedRooms", SetSerializer(Int.serializer())) {
-        override fun toData(value: SelectedRooms): Set<Int> {
+        TransformSerializer<Rooms, Set<Int>>("SelectedRooms", SetSerializer(Int.serializer())) {
+        override fun toData(value: Rooms): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SelectedRooms {
+        override fun fromData(data: Set<Int>): Rooms {
             return of(data)
         }
     }
@@ -241,32 +241,32 @@ public sealed interface SelectedRooms : SelectedRoomsOrTopLayer {
 /**
  * Represents the selected top layer.
  */
-@Serializable(SelectedTopLayer.Serializer::class)
-public sealed interface SelectedTopLayer : SingleSelectedRoomOrTopLayer {
+@Serializable(TopLayer.Serializer::class)
+public sealed interface TopLayer : SingleRoomOrTopLayer {
     override val room: Int
         get() = TOP_LAYER
 
-    private object Impl : AbstractSelectedRoomsAndTopLayer(), SelectedTopLayer
+    private object Impl : AbstractRoomsAndTopLayer(), TopLayer
 
     public companion object {
         /**
-         * Gets the instance of [SelectedTopLayer].
+         * Gets the instance of [TopLayer].
          *
-         * @return The instance of [SelectedTopLayer].
+         * @return The instance of [TopLayer].
          */
         @JvmStatic
-        public fun of(): SelectedTopLayer {
+        public fun of(): TopLayer {
             return Impl
         }
     }
 
     public object Serializer :
-        TransformSerializer<SelectedTopLayer, Set<Int>>("SelectedTopLayer", SetSerializer(Int.serializer())) {
-        override fun toData(value: SelectedTopLayer): Set<Int> {
+        TransformSerializer<TopLayer, Set<Int>>("SelectedTopLayer", SetSerializer(Int.serializer())) {
+        override fun toData(value: TopLayer): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SelectedTopLayer {
+        override fun fromData(data: Set<Int>): TopLayer {
             require(TOP_LAYER in data && data.size == 1) { "SelectedTopLayer must be created with the top layer ID." }
             return of()
         }
@@ -276,9 +276,9 @@ public sealed interface SelectedTopLayer : SingleSelectedRoomOrTopLayer {
 /**
  * Represents a single selected room, not including the top layer.
  */
-@Serializable(SingleSelectedRoom.Serializer::class)
-public sealed interface SingleSelectedRoom : SingleSelectedRoomOrTopLayer, SelectedRooms {
-    private class Impl(override val room: Int) : AbstractSelectedRoomsAndTopLayer(), SingleSelectedRoom {
+@Serializable(SingleRoom.Serializer::class)
+public sealed interface SingleRoom : SingleRoomOrTopLayer, Rooms {
+    private class Impl(override val room: Int) : AbstractRoomsAndTopLayer(), SingleRoom {
         init {
             requireAllRooms()
         }
@@ -286,24 +286,24 @@ public sealed interface SingleSelectedRoom : SingleSelectedRoomOrTopLayer, Selec
 
     public companion object {
         /**
-         * Creates a new instance of [SingleSelectedRoom].
+         * Creates a new instance of [SingleRoom].
          *
          * @param room The ID of the selected room.
-         * @return A new instance of [SingleSelectedRoom] with the specified room ID.
+         * @return A new instance of [SingleRoom] with the specified room ID.
          */
         @JvmStatic
-        public fun of(room: Int): SingleSelectedRoom {
+        public fun of(room: Int): SingleRoom {
             return Impl(room)
         }
     }
 
     public object Serializer :
-        TransformSerializer<SingleSelectedRoom, Set<Int>>("SingleSelectedRoom", SetSerializer(Int.serializer())) {
-        override fun toData(value: SingleSelectedRoom): Set<Int> {
+        TransformSerializer<SingleRoom, Set<Int>>("SingleSelectedRoom", SetSerializer(Int.serializer())) {
+        override fun toData(value: SingleRoom): Set<Int> {
             return value.rooms
         }
 
-        override fun fromData(data: Set<Int>): SingleSelectedRoom {
+        override fun fromData(data: Set<Int>): SingleRoom {
             require(data.size == 1) { "SingleSelectedRoom must contain exactly one room." }
             return of(data.first())
         }
@@ -336,44 +336,44 @@ public const val ROOM4: Int = 3
 public const val TOP_LAYER: Int = 4
 
 /**
- * Creates an instance of [SelectedRoomsAndTopLayer] based on the provided [KClass] and set of room IDs.
+ * Creates an instance of [RoomsAndTopLayer] based on the provided [KClass] and set of room IDs.
  *
- * @param T The type of [SelectedRoomsAndTopLayer] to create.
+ * @param T The type of [RoomsAndTopLayer] to create.
  * @param kClass The [KClass] of the type to create.
  * @param rooms The set of room IDs to include in the selection.
- * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
+ * @return An instance of [RoomsAndTopLayer] of the specified type.
  */
 @JvmSynthetic
 @RDKTInternalAPI
-public fun <T : SelectedRoomsAndTopLayer> roomsOf(kClass: KClass<T>, rooms: Set<Int>): T {
+public fun <T : RoomsAndTopLayer> roomsOf(kClass: KClass<T>, rooms: Set<Int>): T {
     @Suppress("UNCHECKED_CAST")
     return when (kClass) {
-        SelectedRoomsAndTopLayer::class -> SelectedRoomsAndTopLayer.of(rooms)
-        SelectedRoomsOrTopLayer::class -> {
+        RoomsAndTopLayer::class -> RoomsAndTopLayer.of(rooms)
+        RoomsOrTopLayer::class -> {
             when {
                 TOP_LAYER in rooms && rooms.size > 1 -> error("Cannot have both top layer and other rooms selected.")
-                TOP_LAYER in rooms -> SelectedTopLayer.of()
-                else -> SelectedRooms.of(rooms)
+                TOP_LAYER in rooms -> TopLayer.of()
+                else -> Rooms.of(rooms)
             }
         }
 
-        SingleSelectedRoomOrTopLayer::class -> {
+        SingleRoomOrTopLayer::class -> {
             require(rooms.size == 1) { "SingleSelectedRoomOrTopLayer must contain exactly one room or the top layer." }
             when {
-                TOP_LAYER in rooms -> SelectedTopLayer.of()
-                else -> SingleSelectedRoom.of(rooms.first())
+                TOP_LAYER in rooms -> TopLayer.of()
+                else -> SingleRoom.of(rooms.first())
             }
         }
 
-        SelectedRooms::class -> SelectedRooms.of(rooms)
-        SelectedTopLayer::class -> {
+        Rooms::class -> Rooms.of(rooms)
+        TopLayer::class -> {
             require(rooms.size == 1 && TOP_LAYER in rooms) { "SelectedTopLayer must contain only the top layer." }
-            SelectedTopLayer.of()
+            TopLayer.of()
         }
 
-        SingleSelectedRoom::class -> {
+        SingleRoom::class -> {
             require(rooms.size == 1) { "SingleSelectedRoom must contain exactly one room." }
-            SingleSelectedRoom.of(rooms.first())
+            SingleRoom.of(rooms.first())
         }
 
         else -> error("Unsupported type: ${kClass.simpleName}")
@@ -381,67 +381,67 @@ public fun <T : SelectedRoomsAndTopLayer> roomsOf(kClass: KClass<T>, rooms: Set<
 }
 
 /**
- * Creates an instance of [SelectedRoomsAndTopLayer] based on the provided [KClass] and a single room ID.
+ * Creates an instance of [RoomsAndTopLayer] based on the provided [KClass] and a single room ID.
  *
- * @param T The type of [SelectedRoomsAndTopLayer] to create.
+ * @param T The type of [RoomsAndTopLayer] to create.
  * @param kClass The [KClass] of the type to create.
  * @param room The ID of the room to include in the selection.
  * @param rooms Additional room IDs to include in the selection.
- * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
+ * @return An instance of [RoomsAndTopLayer] of the specified type.
  */
 @JvmSynthetic
 @RDKTInternalAPI
-public fun <T : SelectedRoomsAndTopLayer> roomsOf(kClass: KClass<T>, room: Int, vararg rooms: Int): T {
+public fun <T : RoomsAndTopLayer> roomsOf(kClass: KClass<T>, room: Int, vararg rooms: Int): T {
     return roomsOf(kClass, setOf(room) + rooms.toSet())
 }
 
 /**
- * Creates an instance of [SingleSelectedRoomOrTopLayer] based on the provided [KClass] and a single room ID.
+ * Creates an instance of [SingleRoomOrTopLayer] based on the provided [KClass] and a single room ID.
  *
- * @param T The type of [SingleSelectedRoomOrTopLayer] to create.
+ * @param T The type of [SingleRoomOrTopLayer] to create.
  * @param kClass The [KClass] of the type to create.
  * @param room The ID of the room to include in the selection.
- * @return An instance of [SingleSelectedRoomOrTopLayer] of the specified type.
+ * @return An instance of [SingleRoomOrTopLayer] of the specified type.
  */
 @JvmSynthetic
 @RDKTInternalAPI
-public fun <T : SingleSelectedRoomOrTopLayer> singleRoomOf(kClass: KClass<T>, room: Int): T {
+public fun <T : SingleRoomOrTopLayer> singleRoomOf(kClass: KClass<T>, room: Int): T {
     return roomsOf(kClass, room)
 }
 
 /**
- * Creates an instance of [SelectedRoomsAndTopLayer] based on the provided set of room IDs.
+ * Creates an instance of [RoomsAndTopLayer] based on the provided set of room IDs.
  *
- * @param T The type of [SelectedRoomsAndTopLayer] to create.
+ * @param T The type of [RoomsAndTopLayer] to create.
  * @param rooms The set of room IDs to include in the selection.
- * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
+ * @return An instance of [RoomsAndTopLayer] of the specified type.
  */
 @JvmName("of")
-public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(rooms: Set<Int>): T {
+public inline fun <reified T : RoomsAndTopLayer> roomsOf(rooms: Set<Int>): T {
     return roomsOf(T::class, rooms)
 }
 
 /**
- * Creates an instance of [SelectedRoomsAndTopLayer] based on the provided room ID and additional room IDs.
+ * Creates an instance of [RoomsAndTopLayer] based on the provided room ID and additional room IDs.
  *
- * @param T The type of [SelectedRoomsAndTopLayer] to create.
+ * @param T The type of [RoomsAndTopLayer] to create.
  * @param room The ID of the first selected room.
  * @param rooms Additional room IDs to include in the selection.
- * @return An instance of [SelectedRoomsAndTopLayer] of the specified type.
+ * @return An instance of [RoomsAndTopLayer] of the specified type.
  */
 @JvmName("of")
-public inline fun <reified T : SelectedRoomsAndTopLayer> roomsOf(room: Int, vararg rooms: Int): T {
+public inline fun <reified T : RoomsAndTopLayer> roomsOf(room: Int, vararg rooms: Int): T {
     return roomsOf(T::class, room, *rooms)
 }
 
 /**
- * Creates an instance of [SingleSelectedRoomOrTopLayer] based on the provided room ID.
+ * Creates an instance of [SingleRoomOrTopLayer] based on the provided room ID.
  *
- * @param T The type of [SingleSelectedRoomOrTopLayer] to create.
+ * @param T The type of [SingleRoomOrTopLayer] to create.
  * @param room The ID of the selected room.
- * @return An instance of [SingleSelectedRoomOrTopLayer] of the specified type.
+ * @return An instance of [SingleRoomOrTopLayer] of the specified type.
  */
 @JvmName("ofSingle")
-public inline fun <reified T : SingleSelectedRoomOrTopLayer> singleRoomOf(room: Int): T {
+public inline fun <reified T : SingleRoomOrTopLayer> singleRoomOf(room: Int): T {
     return singleRoomOf(T::class, room)
 }
