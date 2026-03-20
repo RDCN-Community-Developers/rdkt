@@ -42,4 +42,10 @@ public object Mods {
      * If the player skips the level, the level immediately ends and the player is given an S rank.
      */
     public const val SKIPPABLE: String = "skippable"
+
+    /**
+     * Uses old vfx easing for [SetVFXPresetEvent][cn.rdlevel.rdkt.core.events.SetVFXPresetEvent].
+     * For most presets that has intensity and easing, when enabling the preset with this mod, the easing will start from 100% intensity instead of 0%.
+     */
+    public const val OLD_VFX_EASING: String = "oldVFXEasing"
 }
