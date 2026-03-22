@@ -55,7 +55,7 @@ jobs:
         with:
           arguments: ${{ matrix.target }}
       - name: Notify Discord If Failed
-        if: ${{ cancelled() }}
+        if: ${{ failure() }}
         uses: nitecon/discord-action@v2
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
