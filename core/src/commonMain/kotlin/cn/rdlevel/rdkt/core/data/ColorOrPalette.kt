@@ -9,6 +9,7 @@ import cn.rdlevel.rdkt.core.serialization.TransformSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
@@ -111,6 +112,28 @@ public sealed interface Color : ColorOrPalette {
      */
     public fun toHex(): String
 
+    /**
+     * Creates a new [Color] instance with the same green and blue components but a different red component.
+     */
+    public fun withRed(red: Int): Color = of(red, green, blue)
+
+    /**
+     * Creates a new [Color] instance with the same red and blue components but a different green component.
+     */
+    public fun withGreen(green: Int): Color = of(red, green, blue)
+
+    /**
+     * Creates a new [Color] instance with the same red and green components but a different blue component.
+     */
+    public fun withBlue(blue: Int): Color = of(red, green, blue)
+
+    /**
+     * Creates a new [ColorWithAlpha] instance with the same red, green, and blue components but a specified alpha component.
+     * The alpha component is optional and defaults to 255 (fully opaque) if not provided.
+     */
+    @JvmOverloads
+    public fun withAlpha(alpha: Int = 255): ColorWithAlpha = ColorWithAlpha.of(red, green, blue, alpha)
+
     public object Serializer : PolymorphicDelegatedSerializer<Color, ColorOrPalette>(ColorOrPalette.serializer())
 
     public companion object {
@@ -150,6 +173,26 @@ public sealed interface ColorWithAlpha : Color, ColorWithAlphaOrPalette {
     public val alpha: Int
 
     public override fun toHex(): String
+
+    /**
+     * Creates a new [ColorWithAlpha] instance with a different red component.
+     */
+    public override fun withRed(red: Int): ColorWithAlpha = of(red, green, blue, alpha)
+
+    /**
+     * Creates a new [ColorWithAlpha] instance with a different green component.
+     */
+    public override fun withGreen(green: Int): ColorWithAlpha = of(red, green, blue, alpha)
+
+    /**
+     * Creates a new [ColorWithAlpha] instance with a different blue component.
+     */
+    public override fun withBlue(blue: Int): ColorWithAlpha = of(red, green, blue, alpha)
+
+    /**
+     * Creates a new [ColorWithAlpha] instance with a different alpha component.
+     */
+    public override fun withAlpha(alpha: Int): ColorWithAlpha = of(red, green, blue, alpha)
 
     public object Serializer :
         PolymorphicDelegatedSerializer<ColorWithAlpha, ColorWithAlphaOrPalette>(ColorWithAlphaOrPalette.serializer())
@@ -291,3 +334,9 @@ public fun colorOf(r: Int, g: Int, b: Int): Color = Color.of(r, g, b)
  */
 @JvmName("ofColor")
 public fun colorOf(r: Int, g: Int, b: Int, a: Int = 255): ColorWithAlpha = ColorWithAlpha.of(r, g, b, a)
+
+@JvmField
+public val WHITE: ColorWithAlpha = colorOf(255, 255, 255, 255)
+
+@JvmField
+public val BLACK: ColorWithAlpha = colorOf(0, 0, 0, 255)
