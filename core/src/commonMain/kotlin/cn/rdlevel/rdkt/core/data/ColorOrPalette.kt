@@ -131,7 +131,6 @@ public sealed interface Color : ColorOrPalette {
      * Creates a new [ColorWithAlpha] instance with the same red, green, and blue components but a specified alpha component.
      * The alpha component is optional and defaults to 255 (fully opaque) if not provided.
      */
-    @JvmOverloads
     public fun withAlpha(alpha: Int = 255): ColorWithAlpha = ColorWithAlpha.of(red, green, blue, alpha)
 
     public object Serializer : PolymorphicDelegatedSerializer<Color, ColorOrPalette>(ColorOrPalette.serializer())
