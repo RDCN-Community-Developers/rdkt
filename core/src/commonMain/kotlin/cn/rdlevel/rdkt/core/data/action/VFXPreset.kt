@@ -10,9 +10,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonClassDiscriminator
 import kotlin.jvm.JvmField
 
+/**
+ * Represents a visual effect (VFX) preset that can be applied to specific rooms or the top layer in the level.
+ */
 @Serializable
 @JsonClassDiscriminator("preset")
 public sealed interface VFXPreset {
+    /**
+     * The rooms or top layer that this VFX preset applies to.
+     */
     public val rooms: RoomsOrTopLayer
 
     @Serializable
@@ -827,23 +833,53 @@ public sealed interface VFXPreset {
     ) : RoomsOrTopLayerSpecificVFXPreset
 }
 
+/**
+ * A VFX preset that applies to specific rooms or the top layer.
+ */
 public sealed interface RoomsOrTopLayerSpecificVFXPreset : VFXPreset {
     override var rooms: RoomsOrTopLayer
 }
 
+/**
+ * A VFX preset that applies to specific rooms.
+ */
 public sealed interface RoomsSpecificVFXPreset : VFXPreset {
+    /**
+     * The rooms that this VFX preset applies to.
+     */
     override var rooms: Rooms
 }
 
+/**
+ * A VFX preset that can be toggled on or off.
+ */
 public sealed interface ToggleableVFXPreset : VFXPreset {
+    /**
+     * Whether this VFX preset is enabled or disabled.
+     */
     public var enable: Boolean
 }
 
+/**
+ * A VFX preset that has a threshold parameter.
+ */
 public sealed interface ThresholdSpecificVFXPreset : VFXPreset {
+    /**
+     * The threshold value for this VFX preset.
+     * Leave as null to keep the threshold default or unchanged.
+     */
     public var threshold: Double?
 }
 
+/**
+ * A VFX preset that has an intensity parameter.
+ */
 public sealed interface IntensitySpecificVFXPreset : VFXPreset {
+    /**
+     * The intensity value for this VFX preset.
+     * The valid range is from -9999 to 9999.
+     * Leave as null to keep the intensity default or unchanged.
+     */
     public var intensity: Double?
 }
 
@@ -851,15 +887,37 @@ private fun IntensitySpecificVFXPreset.checkIntensity(value: Double? = intensity
     require(value == null || value in -9999.0..9999.0) { "Intensity must be between -9999 and 9999, but was $value." }
 }
 
+/**
+ * A VFX preset that has a color parameter.
+ */
 public sealed interface ColorSpecificVFXPreset : VFXPreset {
+    /**
+     * The color or palette for this VFX preset.
+     * Leave as null to keep the color default or unchanged.
+     */
     public var color: ColorOrPalette?
 }
 
+/**
+ * A VFX preset that has an amount parameter represented by a 2D vector.
+ */
 public sealed interface Vector2AmountSpecificVFXPreset : VFXPreset {
+    /**
+     * The amount value for this VFX preset, represented as a 2D vector.
+     * Leave as null to keep the amount default or unchanged.
+     */
     public var amount: Vector2
 }
 
+/**
+ * A VFX preset that has a speed parameter represented by a percentage.
+ */
 public sealed interface SpeedSpecificVFXPreset : VFXPreset {
+    /**
+     * The speed percentage for this VFX preset.
+     * The valid range is from -9999 to 9999.
+     * Leave as null to keep the speed default or unchanged.
+     */
     public var speedPerc: Double?
 }
 
@@ -867,11 +925,28 @@ private fun SpeedSpecificVFXPreset.checkSpeed(value: Double? = speedPerc) {
     require(value == null || value in -9999.0..9999.0) { "Speed must be between -9999 and 9999, but was $value." }
 }
 
+/**
+ * A VFX preset that has a speed parameter represented by a 2D vector.
+ */
 public sealed interface Vector2SpeedSpecificVFXPreset : VFXPreset {
+    /**
+     * The speed value for this VFX preset, represented as a 2D vector.
+     * Leave as null to keep the speed default or unchanged.
+     */
     public var xySpeed: Vector2
 }
 
+/**
+ * A VFX preset that has a duration and easing parameters.
+ */
 public sealed interface DurationSpecificVFXPreset : VFXPreset {
+    /**
+     * The duration for this VFX preset to change in beats.
+     */
     public var duration: Double
+
+    /**
+     * The easing function to use for this VFX preset's duration.
+     */
     public var ease: Easing
 }

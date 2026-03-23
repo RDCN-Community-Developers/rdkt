@@ -9,6 +9,11 @@ import cn.rdlevel.rdkt.core.serialization.Flatten
 import cn.rdlevel.rdkt.core.serialization.flatten
 import kotlinx.serialization.*
 
+/**
+ * Applies or configures a VFX preset for the specified rooms or top layer.
+ *
+ * @property vfxPreset The VFX preset to apply or configure, including its target rooms or top layer.
+ */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable(SetVFXPresetEvent.Serializer::class)
 @KeepGeneratedSerializer
