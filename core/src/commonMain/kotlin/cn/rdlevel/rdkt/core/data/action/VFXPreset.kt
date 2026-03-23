@@ -339,7 +339,7 @@ public sealed interface VFXPreset {
     }
 
     @Serializable
-    @SerialName("Blur")
+    @SerialName("RadialBlur")
     public class RadialBlur(
         override var enable: Boolean,
         override var rooms: Rooms,
