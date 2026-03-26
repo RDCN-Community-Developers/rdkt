@@ -404,7 +404,7 @@ public sealed interface PositionedTheme : Theme {
 
 @RDKTInternalAPI
 public sealed class AbstractTheme : Theme {
-    override var skipPaintEffects: Boolean = false
+    override var skipPaintEffects: Boolean = true
 }
 
 @RDKTInternalAPI
