@@ -2,9 +2,11 @@
 
 package cn.rdlevel.rdkt.core.settings
 
+import cn.rdlevel.rdkt.core.annotations.RDKTExperimentalAPI
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import cn.rdlevel.rdkt.core.serialization.MutableStringListSerializedInString
 import cn.rdlevel.rdkt.core.settings.LevelSettings.Companion.CURRENT_LEVEL_VERSION
+import cn.rdlevel.rdkt.core.settings.LevelSettings.Companion.allowOldLevels
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmName
 import kotlin.random.Random
@@ -18,19 +20,26 @@ public class LevelSettings {
     /**
      * The version of the level. Currently, it is set to [67][CURRENT_LEVEL_VERSION].
      *
-     * This library currently does not support levels with other versions.
-     * If you want to use levels with other versions, please use the level editor to convert them to a supported version.
+     * This library currently does not designed to support levels with other versions. It may be not compatible with levels with other versions and may cause unexpected behavior.
+     * Please consider using the level editor to convert levels with other versions to a supported version before using them with this library.
      *
-     * Changing this version number to a not supported one will throw an exception.
+     * If you still want to use levels with other versions, see [allowOldLevels].
+     *
+     * Changing this version number to a not supported one without setting [allowOldLevels] to true will throw an exception.
+     *
+     * @see allowOldLevels
      */
+    @OptIn(RDKTExperimentalAPI::class)
     public var version: Int = CURRENT_LEVEL_VERSION
         set(value) {
-            require(value == CURRENT_LEVEL_VERSION) {
-                """
-                Levels with version $value is not supported.
-                Currently, the supported level version is $CURRENT_LEVEL_VERSION.
-                If you want to use levels with other versions, please use the level editor to convert them to a supported version.
-                """.trimIndent()
+            if (!allowOldLevels) {
+                require(value == CURRENT_LEVEL_VERSION) {
+                    """
+                    Levels with version $value is not supported.
+                    Currently, the supported level version is $CURRENT_LEVEL_VERSION.
+                    If you want to use levels with other versions, please use the level editor to convert them to a supported version, or set allowOldLevels to true (not recommended).
+                    """.trimIndent()
+                }
             }
             field = value
         }
@@ -198,6 +207,13 @@ public class LevelSettings {
          * The current level version the level editor is using.
          */
         public const val CURRENT_LEVEL_VERSION: Int = 67
+
+        /**
+         * Allows using levels with versions other than [CURRENT_LEVEL_VERSION].
+         * It is not recommended to use this unless you know what you are doing, as it may cause unexpected behavior and this library may not be compatible with levels with other versions.
+         */
+        @RDKTExperimentalAPI
+        public var allowOldLevels: Boolean = false
     }
 }
 
