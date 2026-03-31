@@ -2,11 +2,11 @@
 
 package cn.rdlevel.rdkt.core.settings
 
+import cn.rdlevel.rdkt.core.allowOldLevels
 import cn.rdlevel.rdkt.core.annotations.RDKTExperimentalAPI
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import cn.rdlevel.rdkt.core.serialization.MutableStringListSerializedInString
 import cn.rdlevel.rdkt.core.settings.LevelSettings.Companion.CURRENT_LEVEL_VERSION
-import cn.rdlevel.rdkt.core.settings.LevelSettings.Companion.allowOldLevels
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmName
 import kotlin.random.Random
@@ -207,13 +207,6 @@ public class LevelSettings {
          * The current level version the level editor is using.
          */
         public const val CURRENT_LEVEL_VERSION: Int = 67
-
-        /**
-         * Allows using levels with versions other than [CURRENT_LEVEL_VERSION].
-         * It is not recommended to use this unless you know what you are doing, as it may cause unexpected behavior and this library may not be compatible with levels with other versions.
-         */
-        @RDKTExperimentalAPI
-        public var allowOldLevels: Boolean = false
     }
 }
 
