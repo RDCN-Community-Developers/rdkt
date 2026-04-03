@@ -1,6 +1,9 @@
 package cn.rdlevel.rdkt.core.events
 
 import cn.rdlevel.rdkt.core.annotations.RDDeprecated
+import cn.rdlevel.rdkt.core.data.RoomsOrTopLayer
+import cn.rdlevel.rdkt.core.data.TOP_LAYER
+import cn.rdlevel.rdkt.core.data.roomsOf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmOverloads
@@ -20,7 +23,7 @@ public class SayReadyGetSetGoEvent @JvmOverloads constructor(
      * The source of the voice for the nurse.
      */
     public var voiceSource: NurseVoiceType = NurseVoiceType.NURSE,
-) {
+) : BeatSpecificSoundEvent(), MutableRoomsOrTopLayerSpecificEvent {
     /**
      * The delay between each syllable spoken by the nurse in beats.
      * Setting this to 0 or lower will cause the nurse to speak immediately.
@@ -38,6 +41,8 @@ public class SayReadyGetSetGoEvent @JvmOverloads constructor(
             field = value
         }
 
+    override var rooms: RoomsOrTopLayer = roomsOf(TOP_LAYER)
+
     /**
      * Constructs a SayReadyGetSetGoEvent with the specified phrase, voice source, tick, and volume.
      *
@@ -50,13 +55,15 @@ public class SayReadyGetSetGoEvent @JvmOverloads constructor(
         phraseToSay: NursePhraseType,
         voiceSource: NurseVoiceType,
         tick: Double = 1.0,
-        volume: Int = 100
+        volume: Int = 100,
+        rooms: RoomsOrTopLayer
     ) : this(
         phraseToSay,
         voiceSource
     ) {
         this.tick = tick
         this.volume = volume
+        this.rooms = rooms
     }
 
     /**
