@@ -10,6 +10,7 @@ import kotlin.jvm.JvmOverloads
 /**
  * Represents an abstraction of audio and its configuration.
  */
+@Serializable
 public sealed class AbstractAudioData {
     /**
      * The file name or built-in name of the audio.

@@ -19,7 +19,7 @@ class SetGameSoundEventTest {
         }
 
         val event: Event = SetGameSoundEvent(
-            SmallMistakeAudioGroup(subGroupAudioDataOf("bar"))
+            SmallMistakeAudioGroup(subGroupAudioDataOf("bar", false, 50, 50, 50))
         ).apply {
             bar = 114
             y = 514
