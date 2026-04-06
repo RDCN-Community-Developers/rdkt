@@ -19,7 +19,7 @@ public class SetHeartExplodeIntervalEvent @JvmOverloads constructor(
      * The interval in beats.
      */
     public var interval: Double = 1.0,
-) {
+) : BeatSpecificSoundEvent() {
     /**
      * The type of interval calculation for heart explosions.
      */
