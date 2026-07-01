@@ -25,7 +25,7 @@ public data class SetBackgroundColorEvent(
     @Flatten
     private var type: GroundType,
     var filter: RescaleFilter = RescaleFilter.NEAREST_NEIGHBOR,
-    override val rooms: RoomsOrTopLayer = roomsOf(ROOM1),
-) : ActionEvent(), RoomsOrTopLayerSpecificEvent {
+    override var rooms: RoomsOrTopLayer = roomsOf(ROOM1),
+) : ActionEvent(), MutableRoomsOrTopLayerSpecificEvent {
     public object Serializer : KSerializer<SetBackgroundColorEvent> by generatedSerializer().flatten()
 }

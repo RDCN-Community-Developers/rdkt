@@ -44,6 +44,21 @@ public interface DurationSpecificEvent : Event {
 }
 
 /**
+ * An [Event] that has an easing, meaning it can have a smooth transition over time.
+ */
+public interface EaseSpecificEvent : Event {
+    /**
+     * The easing of the event.
+     */
+    public var ease: Easing
+}
+
+/**
+ * An [Event] that both has a duration and an easing.
+ */
+public interface DurationEaseSpecificEvent : DurationSpecificEvent, EaseSpecificEvent
+
+/**
  * An [Event] that is specific to a single row.
  */
 public interface RowSpecificEvent : Event {
