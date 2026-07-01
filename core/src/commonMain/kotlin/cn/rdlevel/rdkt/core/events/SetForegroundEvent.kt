@@ -2,30 +2,22 @@
 
 package cn.rdlevel.rdkt.core.events
 
-
 import cn.rdlevel.rdkt.core.annotations.RDKTInternalAPI
 import cn.rdlevel.rdkt.core.data.ROOM1
 import cn.rdlevel.rdkt.core.data.RoomsOrTopLayer
 import cn.rdlevel.rdkt.core.data.action.GroundType
-import cn.rdlevel.rdkt.core.data.action.RescaleFilter
 import cn.rdlevel.rdkt.core.data.roomsOf
 import cn.rdlevel.rdkt.core.serialization.Flatten
 import cn.rdlevel.rdkt.core.serialization.flatten
 import kotlinx.serialization.*
 
-/**
- * Sets the background of rooms.
- * @property type The type of the background.
- * @property filter How should the pixels' color of the background be when rescaled.
- */
-@Serializable(SetBackgroundColorEvent.Serializer::class)
+@Serializable(SetForegroundEvent.Serializer::class)
 @KeepGeneratedSerializer
-@SerialName("SetBackgroundColor")
-public data class SetBackgroundColorEvent(
+@SerialName("SetForeground")
+public data class SetForegroundEvent(
     @Flatten
-    private var type: GroundType,
-    var filter: RescaleFilter = RescaleFilter.NEAREST_NEIGHBOR,
+    private var type: GroundType.Image,
     override val rooms: RoomsOrTopLayer = roomsOf(ROOM1),
 ) : ActionEvent(), RoomsOrTopLayerSpecificEvent {
-    public object Serializer : KSerializer<SetBackgroundColorEvent> by generatedSerializer().flatten()
+    public object Serializer : KSerializer<SetForegroundEvent> by generatedSerializer().flatten()
 }
