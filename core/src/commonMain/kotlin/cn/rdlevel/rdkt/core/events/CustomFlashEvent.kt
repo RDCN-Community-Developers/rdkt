@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Emits a flash with custom settings.
+ * Emits a flash with custom settings. For more simplified one, see [FlashEvent].
  * @property startColor The start color of the flash.
  * @property startOpacity The start opacity of the flash.
  * @property endColor The end color of the flash.
