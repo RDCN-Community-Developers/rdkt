@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * @property endColor The end color of the flash.
  * @property endOpacity The end opacity of the flash.
  * @property background Whether the flash should be a background flash or a foreground flash.
+ * @property reducedStrength The percentage of the flash strength to reduce when reduced flashing is on.
  */
 @Serializable
 @SerialName("CustomFlash")
@@ -23,6 +24,7 @@ public data class CustomFlashEvent(
     var background: Boolean = false,
     override var duration: Double = 2.0,
     override var ease: Easing = Easing.LINEAR,
+    var reducedStrength: Int? = null,
     override var rooms: RoomsOrTopLayer = roomsOf(ROOM1),
 ) : ActionEvent(), MutableRoomsOrTopLayerSpecificEvent, DurationEaseSpecificEvent {
     /**
