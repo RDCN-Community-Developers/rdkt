@@ -54,6 +54,7 @@ public data class Vector2(val x: Double, val y: Double) {
     public companion object {
         public val ZERO: Vector2 = Vector2(0.0, 0.0)
         public val ONE: Vector2 = Vector2(1.0, 1.0)
+        public val CENTER: Vector2 = Vector2(50.0, 50.0)
     }
 
     public object Serializer :
