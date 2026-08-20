@@ -19,6 +19,7 @@ public data class ReadNarrationEvent @JvmOverloads constructor(
     /**
      * Represents the category of the narration.
      */
+    @Serializable
     public enum class Category {
         @SerialName("Notification")
         NOTIFICATION,
